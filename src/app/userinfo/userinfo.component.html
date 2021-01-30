@@ -1,0 +1,57 @@
+<div *ngIf="showSpinner" align="center" >
+      <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
+  </div>
+<div *ngIf="err" align="center">
+<h3>Please enter correct codeforces handle!</h3>
+</div>
+
+<div *ngIf="result"  class="myDiv" [@expand]>
+<h3>Codeforces details</h3>
+<p align="left"> <b>Name :</b>{{info.info[0].firstName}} {{info.info[0].lastName}}</p>
+<p align="left"> <b>Codeforces handle :</b> {{info.info[0].handle}}</p>
+<p align="left"> <b>Current Rating :</b> {{info.info[0].rating}}</p>
+<p align="left"> <b>Maximum Rating :</b>{{info.info[0].maxRating}}</p>
+<p align="left"> <b>Current Rank :</b>{{info.info[0].rank}}</p>
+<p align="left"> <b>Maximum Rank :</b>{{info.info[0].maxRank}}</p>
+<p align="left"> <b>Contribution :</b>{{info.info[0].contribution}}</p>
+<p align="left"> <b>Friends :</b>{{info.info[0].friendOfCount}}</p>
+<p align="left"> <b>Organization :</b>{{info.info[0].organization}}</p>
+<p align="left"> <b>Country :</b>{{info.info[0].country}}</p>
+</div> 
+
+<div *ngIf="result"  class="myDiv" [@expand]>
+<h3>Codeforces Contests</h3>
+<mat-list>
+        <mat-list-item *ngFor="let contest of info.rating">
+            <p  align="left" matLine> <b>{{contest.contestName}}</b></p> <br>
+            <p  align="left" matLine> <b>Contest Link :</b> {{"https://codeforces.com/contest/" +contest.contestId}}</p><br>
+            <p  align="left" matLine> <b>Contest Rank :</b> {{contest.rank}}</p> <br>
+            <p  align="left" matLine> <b>Rating Change :</b> {{contest.newRating - contest.oldRating }}</p> <br>
+        </mat-list-item>
+</mat-list>
+</div>
+
+<div *ngIf="result"  class="myDiv" [@expand]>
+<h3>Codeforces Submissions</h3>
+<mat-list>
+        <mat-list-item *ngFor="let submission of info.submissions">
+            <p  align="left" matLine> <b>{{submission.problem.name}}</b></p> <br>
+            <p  align="left" matLine> <b>Problem Link :</b> {{"https://codeforces.com/contest/" +submission.contestId + "/problem/"  + submission.problem.index }}</p>
+           <!-- <a href="https://codeforces.com/contest/" +{{submission.contestId}} + "/problem/"  + {{submission.problem.index }}">ahjs</a> -->
+            <p  align="left" matLine> <b>Result :</b> {{submission.verdict}}</p> <br>
+        </mat-list-item>
+</mat-list>
+</div>
+  <div  class="form-size" *ngIf="showForm" align="center">
+    <h3>Get Info of Codeforces User</h3>
+    <form novalidate [formGroup]="userForm" #fform="ngForm" (ngSubmit)="onSubmit()"  [@expand]>
+      <p>
+        <mat-form-field class="half-width">
+          <input matInput formControlName="h1" placeholder="Codeforces Handle" type="text" required>
+          <mat-error *ngIf="formErrors.h1">{{formErrors.h1}}</mat-error>
+        </mat-form-field>
+      </p>
+      
+      <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="userForm.invalid">Submit</button>
+    </form>
+    </div>

@@ -1,0 +1,112 @@
+<div>
+
+<div class="container"
+  fxLayout="column"
+  fxLayoutGap="10px">
+
+  <div fxFlex fxFlexOffset="20px" class="form-size" *ngIf="showForm" align="center">
+    <h3>Compare two Codeforces Users</h3>
+    <form novalidate [formGroup]="compareForm" #fform="ngForm" (ngSubmit)="onSubmit()"  [@expand]>
+      <p>
+        <mat-form-field class="half-width">
+          <input matInput formControlName="h1" placeholder="First Handle" type="text" required>
+          <mat-error *ngIf="formErrors.h1">{{formErrors.h1}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="half-width">
+          <input matInput formControlName="h2" placeholder="Second Handle" type="text" required>
+          <mat-error *ngIf="formErrors.h2">{{formErrors.h2}}</mat-error>
+        </mat-form-field>
+      </p>
+      
+      <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="compareForm.invalid">Submit</button>
+    </form>
+    </div>
+    
+    <div  *ngIf="showSpinner" [@expand] align="center">
+      <mat-spinner></mat-spinner>
+      <h4>please wait..</h4>
+    </div>
+    
+    <div *ngIf="err" align="center">
+    <h3>Please enter correct handles!!</h3>
+    </div>
+    
+    <div *ngIf="result" [@expand] align="center">
+        <table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Category</th>
+      <th scope="col">{{info.h1}}</th>
+      <th scope="col">{{info.h2}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Current Rating</th>
+      <td *ngIf="info.rating.h1>info.rating.h2" bgcolor="green">{{info.rating.h1}}</td>
+      <td *ngIf="info.rating.h1<=info.rating.h2">{{info.rating.h1}}</td>
+      <td *ngIf="info.rating.h2>info.rating.h1" bgcolor="green">{{info.rating.h2}}</td>
+      <td *ngIf="info.rating.h2<=info.rating.h1">{{info.rating.h2}}</td> 
+    </tr>
+    <tr>
+      <th scope="row">Maximum Rating</th>
+      <td *ngIf="info.maxRating.h1>info.maxRating.h2" bgcolor="green">{{info.maxRating.h1}}</td>
+      <td *ngIf="info.maxRating.h1<=info.maxRating.h2">{{info.maxRating.h1}}</td>
+      <td *ngIf="info.maxRating.h2>info.maxRating.h1" bgcolor="green">{{info.maxRating.h2}}</td>
+      <td *ngIf="info.maxRating.h2<=info.maxRating.h1">{{info.maxRating.h2}}</td>
+    </tr>
+   <!-- <tr>
+      <th scope="row">Current Rank</th>
+      <td *ngIf="info.rank.h1>info.rank.h2" bgcolor="green">{{info.rank.h1}}</td>
+      <td *ngIf="info.rank.h1<=info.rank.h2">{{info.rank.h1}}</td>
+      <td *ngIf="info.rank.h2>info.rank.h1" bgcolor="green">{{info.rank.h2}}</td>
+      <td *ngIf="info.rank.h2<=info.rank.h1">{{info.rank.h2}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Maximum Rank</th>
+      <td *ngIf="info.maxRank.h1>info.maxRank.h2" bgcolor="green">{{info.maxRank.h1}}</td>
+      <td *ngIf="info.maxRank.h1<=info.maxRank.h2">{{info.maxRank.h1}}</td>
+      <td *ngIf="info.maxRank.h2>info.maxRank.h1" bgcolor="green">{{info.maxRank.h2}}</td>
+      <td *ngIf="info.maxRank.h2<=info.maxRank.h1">{{info.maxRank.h2}}</td>
+    </tr> -->
+    <tr>
+      <th scope="row">Contests</th>
+      <td *ngIf="info.contests.h1>info.contests.h2" bgcolor="green">{{info.contests.h1}}</td>
+      <td *ngIf="info.contests.h1<=info.contests.h2">{{info.contests.h1}}</td>
+      <td *ngIf="info.contests.h2>info.contests.h1" bgcolor="green">{{info.contests.h2}}</td>
+      <td *ngIf="info.contests.h2<=info.contests.h1">{{info.contests.h2}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Submissions</th>
+      <td *ngIf="info.submissions.h1>info.submissions.h2" bgcolor="green">{{info.submissions.h1}}</td>
+      <td *ngIf="info.submissions.h1<=info.submissions.h2">{{info.submissions.h1}}</td>
+      <td *ngIf="info.submissions.h2>info.submissions.h1" bgcolor="green">{{info.submissions.h2}}</td>
+      <td *ngIf="info.submissions.h2<=info.submissions.h1">{{info.submissions.h2}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Accuracy</th>
+      <td *ngIf="info.accuracy.h1>info.accuracy.h2" bgcolor="green">{{info.accuracy.h1}}</td>
+      <td *ngIf="info.accuracy.h1<=info.accuracy.h2">{{info.accuracy.h1}}</td>
+      <td *ngIf="info.accuracy.h2>info.accuracy.h1" bgcolor="green">{{info.accuracy.h2}}</td>
+      <td *ngIf="info.accuracy.h2<=info.accuracy.h1">{{info.accuracy.h2}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Friends</th>
+      <td *ngIf="info.friends.h1>info.friends.h2" bgcolor="green">{{info.friends.h1}}</td>
+      <td *ngIf="info.friends.h1<=info.friends.h2">{{info.friends.h1}}</td>
+      <td *ngIf="info.friends.h2>info.friends.h1" bgcolor="green">{{info.friends.h2}}</td>
+      <td *ngIf="info.friends.h2<=info.friends.h1">{{info.friends.h2}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Contribution</th>
+      <td *ngIf="info.contribution.h1>info.contribution.h2" bgcolor="green">{{info.contribution.h1}}</td>
+      <td *ngIf="info.contribution.h1<=info.contribution.h2">{{info.contribution.h1}}</td>
+      <td *ngIf="info.contribution.h2>info.contribution.h1" bgcolor="green">{{info.contribution.h2}}</td>
+      <td *ngIf="info.contribution.h2<=info.contribution.h1">{{info.contribution.h2}}</td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+  </div>
+  
+</div>
