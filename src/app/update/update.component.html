@@ -19,7 +19,6 @@
     <p>
       <mat-form-field>
         <input matInput placeholder="Codeforces handle" type="text" [(ngModel)]="handle.handle" name="handle"  #username="ngModel" required>
-        <mat-error *ngIf="handle.errors?.required">Handle is required</mat-error>
       </mat-form-field>
     </p>
   </mat-dialog-content>
